@@ -58,7 +58,7 @@ public class ProductController {
         userHasProduct.setActive((byte) 1);
         List<UserHasProduct> activeUserHasProducts = userHasProductRepository.getAllByUserIdAndActive(userHasProduct.getUserId(), (byte) 1);
         if (activeUserHasProducts != null && activeUserHasProducts.size() > 0) {
-            for(UserHasProduct userHasProd : activeUserHasProducts) {
+            for (UserHasProduct userHasProd : activeUserHasProducts) {
                 userHasProductRepository.updateActive(userHasProd.getId(), (byte) 0);
             }
         }
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public String update(@PathVariable ("id") Integer userId, @RequestBody UserHasProduct userHasProduct) throws BadRequestException {
+    public String update(@PathVariable("id") Integer userId, @RequestBody UserHasProduct userHasProduct) throws BadRequestException {
         UserHasProduct activeUserHasProduct = userHasProductRepository.getByUserIdAndActive(userHasProduct.getUserId(), (byte) 1);
 //        UserHasProduct oldObject = cloner.deepClone(activeUserHasProduct);
         activeUserHasProduct.setProductId(userHasProduct.getProductId());
@@ -80,17 +80,16 @@ public class ProductController {
         throw new BadRequestException("Bad request");
     }
 
-//    @RequestMapping(value = {"/{id}"}, method = RequestMethod.DELETE)
-//    public @ResponseBody
-//    String delete(@PathVariable Integer userId) throws BadRequestException {
-//        try {
-//            ProductUserHasProduct productUserHasProduct = userHasProductRepository.getActiveCustom(userId);
-//            userHasProductRepository.deleteCustom(productUserHasProduct);
-//            return "Success";
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new BadRequestException("Bad Request");
-//        }
-//    }
+    @DeleteMapping(value = {"/{id}"})
+    public String delete(@PathVariable ("id") Integer userId) throws BadRequestException {
+        try {
+            UserHasProduct userHasProduct = userHasProductRepository.getByUserIdAndActive(userId, (byte) 1);
+            userHasProductRepository.updateActive(userHasProduct.getId(), (byte) 0);
+            return "Success";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new BadRequestException("Bad Request");
+        }
+    }
 
 }
