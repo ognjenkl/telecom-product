@@ -17,4 +17,6 @@ public interface UserHasProductRepository extends JpaRepository<UserHasProduct, 
 
     UserHasProduct getByUserId(Integer userId);
 
+    UserHasProduct getByUserIdAndActive(Integer userId, Byte active);
+
 }

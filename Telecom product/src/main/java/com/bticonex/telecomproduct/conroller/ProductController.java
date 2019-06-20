@@ -69,16 +69,17 @@ public class ProductController {
         throw new BadRequestException("Bad request");
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public @ResponseBody
-//    String update(@PathVariable ("id") Integer userId, @RequestBody ProductUserHasProduct productUserHasProduct) throws BadRequestException,ForbiddenException {
-//        ProductUserHasProduct oldObject = cloner.deepClone(userHasProductRepository.getActiveCustom(userId));
-//        if (userHasProductRepository.saveAndFlush(productUserHasProduct) != null) {
-//            return "Success";
-//        }
-//        throw new BadRequestException("Bad request");
-//    }
-//
+    @PutMapping(value = "/{id}")
+    public String update(@PathVariable ("id") Integer userId, @RequestBody UserHasProduct userHasProduct) throws BadRequestException {
+        UserHasProduct activeUserHasProduct = userHasProductRepository.getByUserIdAndActive(userHasProduct.getUserId(), (byte) 1);
+//        UserHasProduct oldObject = cloner.deepClone(activeUserHasProduct);
+        activeUserHasProduct.setProductId(userHasProduct.getProductId());
+        if (userHasProductRepository.saveAndFlush(activeUserHasProduct) != null) {
+            return "Success";
+        }
+        throw new BadRequestException("Bad request");
+    }
+
 //    @RequestMapping(value = {"/{id}"}, method = RequestMethod.DELETE)
 //    public @ResponseBody
 //    String delete(@PathVariable Integer userId) throws BadRequestException {
