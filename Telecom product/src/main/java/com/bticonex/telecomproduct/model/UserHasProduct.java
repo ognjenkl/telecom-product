@@ -34,7 +34,7 @@ public class UserHasProduct {
     }
 
     @Basic
-    @Column(name = "user_id", nullable = true)
+    @Column(name = "user_id", nullable = false)
     public Integer getUserId() {
         return userId;
     }
@@ -44,7 +44,7 @@ public class UserHasProduct {
     }
 
     @Basic
-    @Column(name = "product_id", nullable = true)
+    @Column(name = "product_id", nullable = false)
     public Integer getProductId() {
         return productId;
     }
