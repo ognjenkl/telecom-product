@@ -11,5 +11,5 @@ public interface ProductRepositoryCustom {
 
     List<ProductUserHasProduct> getAllActiveCustom();
 
-    ProductUserHasProduct getActiveCustom(Integer userId);
+    ProductUserHasProduct getActiveByUserIdCustom(Integer userId);
 }

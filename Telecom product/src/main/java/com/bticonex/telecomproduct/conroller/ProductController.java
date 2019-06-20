@@ -41,7 +41,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductUserHasProduct getByUserId(@PathVariable("id") Integer userId) throws BadRequestException {
-        ProductUserHasProduct productUserHasProduct = productRepository.getActiveCustom(userId);
+        ProductUserHasProduct productUserHasProduct = productRepository.getActiveByUserIdCustom(userId);
         if (productUserHasProduct != null)
             return productUserHasProduct;
         else
@@ -63,7 +63,7 @@ public class ProductController {
             }
         }
         if ((userHasProductTmp = userHasProductRepository.saveAndFlush(userHasProduct)) != null) {
-            ProductUserHasProduct productUserHasProduct = productRepository.getActiveCustom(userHasProduct.getProductId());
+            ProductUserHasProduct productUserHasProduct = productRepository.getActiveByUserIdCustom(userHasProduct.getUserId());
             return productUserHasProduct;
         }
         throw new BadRequestException("Bad request");

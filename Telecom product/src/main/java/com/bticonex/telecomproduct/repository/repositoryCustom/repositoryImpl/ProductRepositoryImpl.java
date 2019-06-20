@@ -25,7 +25,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public ProductUserHasProduct getActiveCustom(Integer userId) {
+    public ProductUserHasProduct getActiveByUserIdCustom(Integer userId) {
         return (ProductUserHasProduct) entityManager.createNativeQuery(SQL_GET_ACTIVE_BY_USER_ID_CUSTOM, "ProductUserHasProductMapping")
                 .setParameter(1, userId)
                 .getSingleResult();
