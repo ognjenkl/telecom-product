@@ -1,8 +1,10 @@
 package com.bticonex.telecomproduct.model.modelCustom;
 
 import com.bticonex.telecomproduct.model.Product;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ import java.sql.Date;
                         @ColumnResult(name = "technology_type"),
                         @ColumnResult(name = "device_type"),
                         @ColumnResult(name = "deleted", type = Byte.class),
+                        @ColumnResult(name = "user_has_product_id"),
                         @ColumnResult(name = "user_id"),
                         @ColumnResult(name = "activation_date", type = java.util.Date.class),
                         @ColumnResult(name = "active", type = Byte.class)
@@ -29,13 +32,15 @@ import java.sql.Date;
         )
 )
 @MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductUserHasProduct extends Product {
 
+    private Integer userHasProductId;
     private Integer userId;
     private Date activationDate;
     private Byte active;
 
-    public ProductUserHasProduct(Integer id, Integer upstream, Integer downstream, String technologyType, String deviceType, Byte deleted, Integer userId, java.util.Date activationDate, Byte active) {
+    public ProductUserHasProduct(Integer id, Integer upstream, Integer downstream, String technologyType, String deviceType, Byte deleted, Integer usereHasProductId, Integer userId, java.util.Date activationDate, Byte active) {
         super();
 
         this.setId(id);
@@ -45,9 +50,19 @@ public class ProductUserHasProduct extends Product {
         this.setDeviceType(deviceType);
         this.setDeleted(deleted);
 
+        this.userHasProductId = usereHasProductId;
         this.userId = userId;
         this.activationDate = new Date(activationDate.getTime());
         this.active = active;
+    }
+
+
+    public Integer getUserHasProductId() {
+        return userHasProductId;
+    }
+
+    public void setUserHasProductId(Integer userHasProductId) {
+        this.userHasProductId = userHasProductId;
     }
 
     public Integer getUserId() {

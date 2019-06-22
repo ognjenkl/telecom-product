@@ -61,7 +61,7 @@ CREATE TABLE `user_has_product` (
   PRIMARY KEY (`id`),
   KEY `fk_user_has_product_product1_idx` (`product_id`),
   CONSTRAINT `fk_user_has_product_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `user_has_product` (
 
 LOCK TABLES `user_has_product` WRITE;
 /*!40000 ALTER TABLE `user_has_product` DISABLE KEYS */;
-INSERT INTO `user_has_product` VALUES (1,1,1,'2018-10-10 08:00:00',0),(2,1,2,'2019-03-03 03:03:00',0),(3,1,3,'2019-05-05 05:05:00',1),(4,1,4,'2019-08-08 08:08:00',0),(5,2,3,'2019-04-04 04:04:00',1),(6,3,1,'2019-06-20 23:19:29',0),(7,3,2,'2019-06-20 23:33:34',0),(8,3,3,'2019-06-20 23:44:26',0),(9,3,4,'2019-06-21 00:52:58',0),(10,3,4,'2019-06-21 01:11:35',1);
+INSERT INTO `user_has_product` VALUES (1,1,1,'2018-10-10 08:00:00',0),(2,1,2,'2019-03-03 03:03:00',0),(3,1,3,'2019-05-05 05:05:00',1),(4,1,4,'2019-08-08 08:08:00',0),(5,2,3,'2019-04-04 04:04:00',1),(6,3,1,'2019-06-20 23:19:29',0),(7,3,2,'2019-06-20 23:33:34',0),(8,3,3,'2019-06-20 23:44:26',0),(9,3,4,'2019-06-21 00:52:58',0),(10,3,2,'2019-06-21 01:11:35',0),(11,3,1,'2019-06-21 01:38:32',1);
 /*!40000 ALTER TABLE `user_has_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-21  1:13:10
+-- Dump completed on 2019-06-21  1:40:15
