@@ -40,12 +40,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductUserHasProduct getByUserId(@PathVariable("id") Integer userId) throws BadRequestException {
-        ProductUserHasProduct productUserHasProduct = productRepository.getActiveByUserIdCustom(userId);
-        if (productUserHasProduct != null)
+    public ProductUserHasProduct getByUserId(@PathVariable("id") Integer userId) {
+        try {
+            ProductUserHasProduct productUserHasProduct = productRepository.getActiveByUserIdCustom(userId);
             return productUserHasProduct;
-        else
-            throw new BadRequestException("Bad request");
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @Transactional
@@ -81,7 +83,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = {"/{id}"})
-    public String delete(@PathVariable ("id") Integer userId) throws BadRequestException {
+    public String delete(@PathVariable("id") Integer userId) throws BadRequestException {
         try {
             UserHasProduct userHasProduct = userHasProductRepository.getByUserIdAndActive(userId, (byte) 1);
             userHasProductRepository.updateActive(userHasProduct.getId(), (byte) 0);
