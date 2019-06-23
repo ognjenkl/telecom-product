@@ -11,7 +11,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,13 +28,6 @@ public class ProductControllerTest {
     @Autowired
     TestRestTemplate testRestTemplate;
 
-    @LocalServerPort
-    private Integer port;
-
-    private String getRootUrl() {
-        return "/product";
-    }
-
     private Integer userId = 5;
 
     @Test
@@ -43,42 +35,40 @@ public class ProductControllerTest {
     public void testGetAll() {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<String> response = testRestTemplate.exchange(getRootUrl(), HttpMethod.GET, entity, String.class);
-        System.out.println("test getAll");
-        System.out.println(response.getBody());
+        ResponseEntity<String> response = testRestTemplate.exchange("/product", HttpMethod.GET, entity, String.class);
         Assert.assertNotNull(response.getBody());
     }
 
     @Test
     @Order(3)
     public void testGetByUserId() {
-        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject(getRootUrl() + "/" + userId, ProductUserHasProduct.class);
-        System.out.println("test getByUserId()");
-        System.out.println(productUserHasProduct);
+        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
+        Assert.assertNotNull(productUserHasProduct);
     }
 
     @Test
     @Order(1)
     public void testInsert() {
+        // new subscription data
         UserHasProduct userHasProduct = new UserHasProduct();
         userHasProduct.setUserId(userId);
         userHasProduct.setProductId(1);
         userHasProduct.setActivationDate(new Timestamp(new java.util.Date().getTime()));
         userHasProduct.setActive((byte) 1);
 
-        ProductUserHasProduct insertedProductUserHasProduct = testRestTemplate.postForObject(getRootUrl(), userHasProduct, ProductUserHasProduct.class);
+        // activate new subscription
+        ProductUserHasProduct insertedProductUserHasProduct = testRestTemplate.postForObject("/product", userHasProduct, ProductUserHasProduct.class);
+
+        // check if new subscription is activated
         Assert.assertNotNull(insertedProductUserHasProduct);
-        System.out.println("test insert");
-        System.out.println(insertedProductUserHasProduct);
-
-
     }
 
     @Test
     @Order(4)
     public void testUpdate() {
+        // new subscription data to make change
         Integer updateProductValue = 2;
-        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject(getRootUrl() + "/" + userId, ProductUserHasProduct.class);
+        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
         UserHasProduct userHasProduct = new UserHasProduct();
         userHasProduct.setId(productUserHasProduct.getUserHasProductId());
         userHasProduct.setUserId(productUserHasProduct.getUserId());
@@ -86,8 +76,11 @@ public class ProductControllerTest {
         userHasProduct.setActivationDate(new Timestamp(productUserHasProduct.getActivationDate().getTime()));
         userHasProduct.setActive(productUserHasProduct.getActive());
 
-        testRestTemplate.put(getRootUrl() + "/" + userId, userHasProduct);
-        ProductUserHasProduct updateProductUserHasProduct = testRestTemplate.getForObject(getRootUrl() + "/" + userId, ProductUserHasProduct.class);
+        // make change to subscription
+        testRestTemplate.put("/product", userHasProduct);
+
+        // check if subscription is changed for user userId
+        ProductUserHasProduct updateProductUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
         Assert.assertNotNull(updateProductUserHasProduct);
         Assert.assertEquals(updateProductValue, updateProductUserHasProduct.getId());
     }
@@ -95,12 +88,15 @@ public class ProductControllerTest {
     @Test
     @Order(5)
     public void testDelete() {
-        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject(getRootUrl() + "/" + userId, ProductUserHasProduct.class);
-            Assert.assertNotNull(productUserHasProduct);
-            testRestTemplate.delete(getRootUrl() + "/" + userId);
+        // check if there is subscription for userId to deactivate
+        ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
+        Assert.assertNotNull(productUserHasProduct);
 
-            ProductUserHasProduct deletedProductUserHasProduct = null;
-            deletedProductUserHasProduct = testRestTemplate.getForObject(getRootUrl() + "/" + userId, ProductUserHasProduct.class);
-            Assert.assertNull(deletedProductUserHasProduct);
+        // deactivate subscription for userId
+        testRestTemplate.delete("/product/" + userId);
+
+        // check if subscription is deactivated for userId
+        ProductUserHasProduct deletedProductUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
+        Assert.assertNull(deletedProductUserHasProduct);
     }
 }

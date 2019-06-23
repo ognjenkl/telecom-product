@@ -1,7 +1,6 @@
 package com.bticonex.telecomproduct.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
