@@ -4,14 +4,18 @@ import com.bticonex.telecomproduct.model.Product;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-
-import javax.persistence.*;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.SqlResultSetMapping;
 import java.sql.Date;
 
 /**
+ * Custom model class for user subscription.
+ *
  * Created by ognjen on 6/20/2019
+ *
  */
 @SqlResultSetMapping(
         name = "ProductUserHasProductMapping",
@@ -37,7 +41,13 @@ public class ProductUserHasProduct extends Product {
 
     private Integer userHasProductId;
     private Integer userId;
+    /**
+     * Indicates when subscription was activated
+     */
     private Date activationDate;
+    /**
+     * Indicates if subscription is activated
+     */
     private Byte active;
 
     public ProductUserHasProduct(Integer id, Integer upstream, Integer downstream, String technologyType, String deviceType, Byte deleted, Integer usereHasProductId, Integer userId, java.util.Date activationDate, Byte active) {

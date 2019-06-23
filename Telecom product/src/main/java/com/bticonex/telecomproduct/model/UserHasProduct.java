@@ -17,7 +17,13 @@ public class UserHasProduct {
     private Integer userId;
     @JsonProperty("product_id")
     private Integer productId;
+    /**
+     * Indicates when subscription was activated
+     */
     private Timestamp activationDate;
+    /**
+     * Indicates if subscription is activated
+     */
     private Byte active;
 
 

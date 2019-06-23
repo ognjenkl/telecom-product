@@ -1,5 +1,5 @@
-Installation
-After successfully unpacked "telecom-product.zip" there are:
+Installation and start of application in Windows
+After successfully unpacked "telecom-product.zip" file, following could be find there:
 	- "Telecom product" - source code directory 
 	- "app" - directory with files to start application 
 	- "db scripts" - direcotry with SQL script to create db
@@ -10,5 +10,5 @@ Steps to start application:
 2. In the "app" directory, update "application.properties" file with valid db username and password
 3. Start application by running command in directory "app":
 	java -jar telecom-product.jar
-4. In browser open URL:
+4. In browser open URL to test if app is started:
 	http://localhost:8080/product

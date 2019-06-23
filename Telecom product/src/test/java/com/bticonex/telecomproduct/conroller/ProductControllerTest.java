@@ -49,6 +49,7 @@ public class ProductControllerTest {
     @Test
     @Order(1)
     public void testInsert() {
+
         // new subscription data
         UserHasProduct userHasProduct = new UserHasProduct();
         userHasProduct.setUserId(userId);
@@ -76,7 +77,7 @@ public class ProductControllerTest {
         userHasProduct.setActivationDate(new Timestamp(productUserHasProduct.getActivationDate().getTime()));
         userHasProduct.setActive(productUserHasProduct.getActive());
 
-        // make change to subscription
+        // make changes to subscription
         testRestTemplate.put("/product", userHasProduct);
 
         // check if subscription is changed for user userId
@@ -88,6 +89,7 @@ public class ProductControllerTest {
     @Test
     @Order(5)
     public void testDelete() {
+
         // check if there is subscription for userId to deactivate
         ProductUserHasProduct productUserHasProduct = testRestTemplate.getForObject("/product/" + userId, ProductUserHasProduct.class);
         Assert.assertNotNull(productUserHasProduct);
